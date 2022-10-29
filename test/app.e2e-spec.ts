@@ -23,4 +23,12 @@ describe('AppController (e2e)', () => {
     expect(response.status).toEqual(200);
     expect(response.body).toBeDefined();
   });
+  it('/booking/slots/?date=date (GET)', async () => {
+    const random_date = '2022/10/29';
+    const response = await request(app.getHttpServer()).get(
+      `/booking/slots/?date=${random_date}`,
+    );
+    expect(response.status).toEqual(200);
+    expect(response.body).toBeDefined();
+  });
 });
