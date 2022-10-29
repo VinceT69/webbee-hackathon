@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model WeekDay {
+  id              String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name            String            @unique @db.VarChar(10)
+  openingTime     DateTime          @db.Time()
+  closingTime     DateTime          @db.Time()
+  createdAt       DateTime?         @default(now()) @db.Timestamp(6)
+  deletedAt       DateTime?         @db.Timestamp(6)
+  AppointmentSlot AppointmentSlot[]
+}
+
+model BreakTime {
+  id                String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name              String           @db.VarChar(30)
+  startTime         DateTime         @db.Time()
+  endTime           DateTime         @db.Time()
+  createdAt         DateTime?        @default(now()) @db.Timestamp(6)
+  deletedAt         DateTime?        @db.Timestamp(6)
+  AppointmentSlot   AppointmentSlot? @relation(fields: [appointmentSlotId], references: [id])
+  appointmentSlotId String?          @db.Uuid
+}
+
+model Holiday {
+  id                String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name              String           @db.VarChar(30)
+  startDate         DateTime         @db.Date
+  endDate           DateTime         @db.Date
+  createdAt         DateTime?        @default(now()) @db.Timestamp(6)
+  deletedAt         DateTime?        @db.Timestamp(6)
+  AppointmentSlot   AppointmentSlot? @relation(fields: [appointmentSlotId], references: [id])
+  appointmentSlotId String?          @db.Uuid
+}
+
+model Appointment {
+  id                String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  appointmentSlot   AppointmentSlot @relation(fields: [appointmentSlotId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  firstname         String          @db.VarChar(15)
+  lastname          String          @db.VarChar(15)
+  email             String          @db.VarChar(30)
+  appointmentSlotId String          @db.Uuid
+  createdAt         DateTime?       @default(now()) @db.Timestamp(6)
+  deletedAt         DateTime?       @db.Timestamp(6)
+}
+
+model AppointmentSlot {
+  id                    String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                  String        @db.VarChar(30)
+  startDate             DateTime      @db.Date
+  appointmentBufferTime Int
+  appointmentDuration   Int
+  max_bookings          Int
+  max_bookable_days     Int
+  breaks                BreakTime[]
+  bookedAppointments    Appointment[]
+  holidays              Holiday[]
+  createdAt             DateTime?     @default(now()) @db.Timestamp(6)
+  deletedAt             DateTime?     @db.Timestamp(6)
+  weekday               WeekDay       @relation(fields: [weekDayId], references: [name])
+  weekDayId             String        @db.VarChar(10)
+}
