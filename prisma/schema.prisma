@@ -12,11 +12,11 @@ datasource db {
 
 model WeekDay {
   id              String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name            String            @unique @db.VarChar(10)
+  name            String            @db.VarChar(10)
   openingTime     DateTime          @db.Time()
   closingTime     DateTime          @db.Time()
   createdAt       DateTime?         @default(now()) @db.Timestamp(6)
-  deletedAt       DateTime?         @db.Timestamp(6)
+  updatedAt       DateTime?         @updatedAt
   AppointmentSlot AppointmentSlot[]
 }
 
@@ -26,7 +26,7 @@ model BreakTime {
   startTime         DateTime         @db.Time()
   endTime           DateTime         @db.Time()
   createdAt         DateTime?        @default(now()) @db.Timestamp(6)
-  deletedAt         DateTime?        @db.Timestamp(6)
+  updatedAt         DateTime?        @updatedAt
   AppointmentSlot   AppointmentSlot? @relation(fields: [appointmentSlotId], references: [id])
   appointmentSlotId String?          @db.Uuid
 }
@@ -37,7 +37,7 @@ model Holiday {
   startDate         DateTime         @db.Date
   endDate           DateTime         @db.Date
   createdAt         DateTime?        @default(now()) @db.Timestamp(6)
-  deletedAt         DateTime?        @db.Timestamp(6)
+  updatedAt         DateTime?        @updatedAt
   AppointmentSlot   AppointmentSlot? @relation(fields: [appointmentSlotId], references: [id])
   appointmentSlotId String?          @db.Uuid
 }
@@ -50,7 +50,7 @@ model Appointment {
   email             String          @db.VarChar(30)
   appointmentSlotId String          @db.Uuid
   createdAt         DateTime?       @default(now()) @db.Timestamp(6)
-  deletedAt         DateTime?       @db.Timestamp(6)
+  updatedAt         DateTime?       @updatedAt
 }
 
 model AppointmentSlot {
@@ -65,7 +65,7 @@ model AppointmentSlot {
   bookedAppointments    Appointment[]
   holidays              Holiday[]
   createdAt             DateTime?     @default(now()) @db.Timestamp(6)
-  deletedAt             DateTime?     @db.Timestamp(6)
-  weekday               WeekDay       @relation(fields: [weekDayId], references: [name])
-  weekDayId             String        @db.VarChar(10)
+  updatedAt             DateTime?     @updatedAt
+  weekday               WeekDay?      @relation(fields: [weekDayId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  weekDayId             String?       @db.Uuid
 }

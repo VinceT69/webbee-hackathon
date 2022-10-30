@@ -66,7 +66,6 @@ async function main() {
           },
         ],
       },
-      weekDayId: 'Monday',
     },
     {
       name: 'Men Haircut',
@@ -89,7 +88,6 @@ async function main() {
           },
         ],
       },
-      weekDayId: 'Tuesday',
     },
     {
       name: 'Men Haircut',
@@ -121,7 +119,6 @@ async function main() {
           },
         ],
       },
-      weekDayId: 'Wednesday',
     },
     {
       name: 'Men Haircut',
@@ -144,7 +141,6 @@ async function main() {
           },
         ],
       },
-      weekDayId: 'Thursday',
     },
     {
       name: 'Men Haircut',
@@ -167,7 +163,6 @@ async function main() {
           },
         ],
       },
-      weekDayId: 'Friday',
     },
     {
       name: 'Men Haircut',
@@ -190,7 +185,6 @@ async function main() {
           },
         ],
       },
-      weekDayId: 'Saturday',
     },
     {
       name: 'Men Haircut',
@@ -213,7 +207,6 @@ async function main() {
           },
         ],
       },
-      weekDayId: 'Monday',
     },
   ];
   slotsMen.forEach(async (each) => {
@@ -243,7 +236,6 @@ async function main() {
           },
         ],
       },
-      weekDayId: 'Monday',
     },
     {
       name: 'Women Haircut',
@@ -266,7 +258,6 @@ async function main() {
           },
         ],
       },
-      weekDayId: 'Tuesday',
     },
     {
       name: 'Women Haircut',
@@ -298,7 +289,6 @@ async function main() {
           },
         ],
       },
-      weekDayId: 'Wednesday',
     },
     {
       name: 'Women Haircut',
@@ -321,7 +311,6 @@ async function main() {
           },
         ],
       },
-      weekDayId: 'Thursday',
     },
     {
       name: 'Women Haircut',
@@ -344,7 +333,6 @@ async function main() {
           },
         ],
       },
-      weekDayId: 'Friday',
     },
     {
       name: 'Women Haircut',
@@ -367,7 +355,6 @@ async function main() {
           },
         ],
       },
-      weekDayId: 'Saturday',
     },
     {
       name: 'Women Haircut',
@@ -390,7 +377,6 @@ async function main() {
           },
         ],
       },
-      weekDayId: 'Monday',
     },
   ];
   slotsWomen.forEach(async (each) => {

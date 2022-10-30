@@ -1,7 +1,8 @@
 import { Controller, Get, Query, Req, Res, Post, Body } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { AppointmentsService } from './appointments.service';
-import { bookingDto } from './booking.dto';
+import { BookingsDtoArray } from './booking.dto';
+
 @Controller('booking')
 export class AppointmentsController {
   constructor(private readonly appointmentsService: AppointmentsService) {}
@@ -26,9 +27,9 @@ export class AppointmentsController {
     @Res() res: Response,
   ) {
     try {
-      const slot = await this.appointmentsService.getSlot(params.date);
+      const slots = await this.appointmentsService.getSlot(params.date);
       return res.status(200).json({
-        slot,
+        slots,
       });
     } catch (error) {
       //will add proper error handling
@@ -38,11 +39,11 @@ export class AppointmentsController {
 
   @Post('book')
   async bookAppointment(
-    @Body() body: { bookings: bookingDto[] },
+    @Body() payload: BookingsDtoArray,
     @Res() res: Response,
   ) {
     const errors = [];
-    const { bookings } = body;
+    const { bookings } = payload;
     try {
       for (const each of bookings) {
         await this.appointmentsService.bookAppointment(each);

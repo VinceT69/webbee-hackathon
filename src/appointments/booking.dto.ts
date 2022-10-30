@@ -1,23 +1,33 @@
-import { IsString, IsNotEmpty, IsNumberString } from 'class-validator';
+import { Type } from 'class-transformer';
+import {
+  IsString,
+  IsNotEmpty,
+  IsArray,
+  ValidateNested,
+  IsEmail,
+} from 'class-validator';
 
-export class bookingDto {
+export class BookingDto {
   @IsString()
   @IsNotEmpty()
-  @IsNumberString()
   appointmentSlotId: string;
 
   @IsString()
   @IsNotEmpty()
-  @IsNumberString()
   firstname: string;
 
   @IsString()
   @IsNotEmpty()
-  @IsNumberString()
   lastname: string;
 
   @IsString()
   @IsNotEmpty()
-  @IsNumberString()
+  @IsEmail()
   email: string;
+}
+export class BookingsDtoArray {
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => BookingDto)
+  bookings: BookingDto[];
 }

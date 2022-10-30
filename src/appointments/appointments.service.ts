@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import { bookingDto } from './booking.dto';
+import { BookingDto } from './booking.dto';
 const prismaInstance = new PrismaClient();
 
 @Injectable()
@@ -64,7 +64,7 @@ export class AppointmentsService {
     }
   }
 
-  public async bookAppointment(data: bookingDto) {
+  public async bookAppointment(data: BookingDto) {
     try {
       const isvalidSlot = await this.isValidTimeSlot(data.appointmentSlotId);
       if (!isvalidSlot) {
@@ -84,7 +84,7 @@ export class AppointmentsService {
 
   private async isOverBooked(appointmentslotID: string) {
     try {
-      const slot = await this.prisma.appointmentSlot.findFirst({
+      const slot = await this.prisma.appointmentSlot.findUnique({
         where: {
           id: appointmentslotID,
         },
@@ -98,23 +98,23 @@ export class AppointmentsService {
         return false;
       }
       return true;
-    } catch (error) {
-      throw error;
+    } catch (exception) {
+      throw exception;
     }
   }
   private async isValidTimeSlot(appointmentslotID: string) {
     try {
-      const valid = await this.prisma.appointmentSlot.findFirst({
+      const valid = await this.prisma.appointmentSlot.findUniqueOrThrow({
         where: {
           id: appointmentslotID,
         },
       });
+
       if (valid) {
         return true;
       }
+    } catch (exception) {
       return false;
-    } catch (error) {
-      throw error;
     }
   }
 }
